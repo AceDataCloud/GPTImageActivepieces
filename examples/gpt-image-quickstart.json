@@ -1,0 +1,126 @@
+{
+  "name": "GPT Image quickstart",
+  "type": "SHARED",
+  "summary": "",
+  "description": "",
+  "tags": [],
+  "blogUrl": "",
+  "metadata": {
+    "externalId": "gpt-image-quickstart-20261012"
+  },
+  "author": "Ace Data Cloud",
+  "categories": [],
+  "pieces": [
+    "@activepieces/piece-manual-trigger",
+    "@acedatacloud/piece-gpt-image"
+  ],
+  "flows": [
+    {
+      "displayName": "GPT Image quickstart",
+      "trigger": {
+        "name": "trigger",
+        "valid": true,
+        "displayName": "Manual Trigger",
+        "nextAction": {
+          "name": "step_1",
+          "skip": false,
+          "type": "PIECE",
+          "valid": false,
+          "settings": {
+            "input": {
+              "auth": "",
+              "prompt": "A small red kite above a green meadow, watercolor illustration.",
+              "model": "gpt-image-2",
+              "quality": "low",
+              "size": "1024x1024",
+              "count": 1
+            },
+            "pieceName": "@acedatacloud/piece-gpt-image",
+            "actionName": "generate_image",
+            "sampleData": {},
+            "pieceVersion": "0.1.0",
+            "propertySettings": {
+              "prompt": {
+                "type": "MANUAL"
+              },
+              "model": {
+                "type": "MANUAL"
+              },
+              "quality": {
+                "type": "MANUAL"
+              },
+              "size": {
+                "type": "MANUAL"
+              },
+              "count": {
+                "type": "MANUAL"
+              }
+            },
+            "errorHandlingOptions": {
+              "retryOnFailure": {
+                "value": false
+              },
+              "continueOnFailure": {
+                "value": false
+              }
+            }
+          },
+          "nextAction": {
+            "name": "step_2",
+            "skip": false,
+            "type": "PIECE",
+            "valid": false,
+            "settings": {
+              "input": {
+                "auth": "",
+                "taskId": "{{step_1['output']['task_id']}}",
+                "traceId": ""
+              },
+              "pieceName": "@acedatacloud/piece-gpt-image",
+              "actionName": "get_task",
+              "sampleData": {},
+              "pieceVersion": "0.1.0",
+              "propertySettings": {
+                "taskId": {
+                  "type": "MANUAL"
+                },
+                "traceId": {
+                  "type": "MANUAL"
+                }
+              },
+              "errorHandlingOptions": {
+                "retryOnFailure": {
+                  "value": false
+                },
+                "continueOnFailure": {
+                  "value": false
+                }
+              }
+            },
+            "displayName": "Get GPT Image task",
+            "lastUpdatedDate": "2026-10-11T15:59:36.284Z"
+          },
+          "displayName": "Create GPT Image task",
+          "lastUpdatedDate": "2026-10-11T15:40:03.227Z"
+        },
+        "type": "PIECE_TRIGGER",
+        "settings": {
+          "propertySettings": {
+            "markdown": {
+              "type": "MANUAL"
+            }
+          },
+          "pieceName": "@activepieces/piece-manual-trigger",
+          "pieceVersion": "0.0.8",
+          "triggerName": "manual_trigger",
+          "input": {}
+        },
+        "lastUpdatedDate": "2026-10-11T15:29:17.786Z"
+      },
+      "valid": true,
+      "schemaVersion": "27",
+      "notes": []
+    }
+  ],
+  "status": "PUBLISHED"
+}
