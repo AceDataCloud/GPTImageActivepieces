@@ -1,0 +1,30 @@
+{
+  "name": "@acedatacloud/piece-gpt-image",
+  "version": "0.1.0",
+  "description": "GPT Image generation and task lookup through Ace Data Cloud for Activepieces",
+  "type": "commonjs",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test test/*.test.cjs",
+    "pack:check": "npm pack --dry-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AceDataCloud/GPTImageActivepieces.git"
+  },
+  "homepage": "https://github.com/AceDataCloud/GPTImageActivepieces#readme",
+  "bugs": "https://github.com/AceDataCloud/GPTImageActivepieces/issues",
+  "license": "MIT",
+  "dependencies": {
+    "@activepieces/pieces-common": "0.12.5",
+    "@activepieces/pieces-framework": "0.32.0"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}
