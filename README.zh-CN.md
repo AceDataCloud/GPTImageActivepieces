@@ -38,3 +38,5 @@ Activepieces 0.92.2+ 中进入 **Platform Admin → Catalogue → Pieces → Ins
 | `failed` 或任务不存在 | 检查任务或 Trace ID 及保留期限。 |
 
 Piece 只向 `https://api.acedata.cloud` 发送所选输入和 API Key，仅在终态返回媒体 URL，并过滤内部路由字段。[源码](https://github.com/AceDataCloud/GPTImageActivepieces) · [支持](https://github.com/AceDataCloud/GPTImageActivepieces/issues) · dev@acedata.cloud。
+
+API 请求验证 HTTPS 证书，且仅访问 `api.acedata.cloud`。网络失败与 HTTP 错误不自动重试；重新创建前先查请求历史。此传输方式不支持 HTTPS 代理配置。
