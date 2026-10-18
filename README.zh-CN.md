@@ -40,3 +40,11 @@ Activepieces 0.92.2+ 中进入 **Platform Admin → Catalogue → Pieces → Ins
 Piece 只向 `https://api.acedata.cloud` 发送所选输入和 API Key，仅在终态返回媒体 URL，并过滤内部路由字段。[源码](https://github.com/AceDataCloud/GPTImageActivepieces) · [支持](https://github.com/AceDataCloud/GPTImageActivepieces/issues) · dev@acedata.cloud。
 
 API 请求验证 HTTPS 证书，且仅访问 `api.acedata.cloud`。网络失败与 HTTP 错误不自动重试；重新创建前先查请求历史。此传输方式不支持 HTTPS 代理配置。
+
+## 图文配置参考
+
+![复制 Key 或管理密钥：真实脱敏 Ace 控制台](docs/screenshots/get-api-key-en.png)
+![创建独立 Key：真实脱敏 Ace 控制台](docs/screenshots/create-api-key-en.png)
+![官方 Activepieces 通用安装弹窗](docs/screenshots/install-piece.png)
+
+2026-10-18 复用的真实/官方参考图，[固定来源与边界](docs/screenshots/onboarding-source.json)保留。安装图不是本 Piece 已被官方共享目录收录的证明。管理员安装后按服务名搜索并核对 **by Ace Data Cloud**；Key 只放动作连接。源码 PR、npm 发版、官方目录收录与真实首用分别验收。

@@ -40,3 +40,11 @@ An isolated Activepieces CE 0.92.2 instance accepted the build archive and ran *
 The Piece sends chosen inputs and the API key only to `https://api.acedata.cloud`. It returns final media URLs and removes internal routing fields from task results. [Source](https://github.com/AceDataCloud/GPTImageActivepieces) · [Support](https://github.com/AceDataCloud/GPTImageActivepieces/issues) · dev@acedata.cloud.
 
 API requests verify HTTPS certificates and stay on `api.acedata.cloud`. Transport failures and HTTP errors are not retried automatically; inspect request history before resubmitting a creation. HTTPS proxy configuration is not supported by this transport.
+
+## Visual setup references
+
+![Copy a key or open Manage Keys: real redacted Ace console](docs/screenshots/get-api-key-en.png)
+![Create a dedicated key: real redacted Ace console](docs/screenshots/create-api-key-en.png)
+![Official Activepieces generic installation dialog](docs/screenshots/install-piece.png)
+
+References reused on 2026-10-18; [fixed sources and limits](docs/screenshots/onboarding-source.json). The installation picture is an official generic reference, not proof this Piece is in the shared catalog. After administrator installation, search the service name, select **by Ace Data Cloud**, and keep the raw API key in the action connection. Source PR, immutable npm release, official shared-catalog acceptance and first use are separate stages.
