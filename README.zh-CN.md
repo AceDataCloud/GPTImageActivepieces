@@ -2,11 +2,11 @@
 
 通过 Ace Data Cloud 创建 GPT Image 任务，并按**同一个任务 ID**查询结果。Piece 提供 **Create GPT Image task** 和 **Get GPT Image task** 两个动作。提交返回 ID 并不代表图片已完成；查询到 `succeeded` 后才可使用成品。[English](README.md)
 
-**分发方式：**在 Activepieces 实例中将 `@acedatacloud/piece-gpt-image@0.1.0` 作为自定义 Piece 安装。公开 npm 包不会自动进入 Activepieces 共享目录。
+**分发方式：**在 Activepieces 实例中将 `@acedatacloud/piece-gpt-image@0.1.1` 作为自定义 Piece 安装。公开 npm 包不会自动进入 Activepieces 共享目录。
 
 ## 安装与连接
 
-Activepieces 0.92.2+ 中进入 **Platform Admin → Catalogue → Pieces → Install Piece → NPM Registry**，填写 `@acedatacloud/piece-gpt-image` 和版本 `0.1.0`。在流程中搜索 **GPT Image by Ace Data Cloud**，核对 Ace Data Cloud Logo 和两个动作。
+Activepieces 0.92.2+ 中进入 **Platform Admin → Catalogue → Pieces → Install Piece → NPM Registry**，填写 `@acedatacloud/piece-gpt-image` 和版本 `0.1.1`。在流程中搜索 **GPT Image by Ace Data Cloud**，核对 Ace Data Cloud Logo 和两个动作。
 
 1. 在 [Ace Data Cloud Applications](https://platform.acedata.cloud/console/applications?utm_source=opensource&utm_medium=referral&utm_campaign=evergreen&utm_content=gpt_image_activepieces_readme_api_key) 注册或登录。若没有通用应用，点击 **Initialize General Application**。
 2. 打开通用应用或具备 **GPT Image** 权限的应用。通用 Key 可访问账号已获授权的服务；专用 Key 仅限对应服务。

@@ -38,7 +38,7 @@
             "pieceName": "@acedatacloud/piece-gpt-image",
             "actionName": "generate_image",
             "sampleData": {},
-            "pieceVersion": "0.1.0",
+            "pieceVersion": "0.1.1",
             "propertySettings": {
               "prompt": {
                 "type": "MANUAL"
@@ -79,7 +79,7 @@
               "pieceName": "@acedatacloud/piece-gpt-image",
               "actionName": "get_task",
               "sampleData": {},
-              "pieceVersion": "0.1.0",
+              "pieceVersion": "0.1.1",
               "propertySettings": {
                 "taskId": {
                   "type": "MANUAL"
