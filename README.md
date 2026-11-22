@@ -2,11 +2,11 @@
 
 Create a GPT Image task and retrieve the **same task ID** through Ace Data Cloud. The Piece has two actions: **Create GPT Image task** and **Get GPT Image task**. Submission returns an ID; the image is ready only after the lookup reports `succeeded`.
 
-**Distribution:** Install `@acedatacloud/piece-gpt-image@0.1.1` as a custom Piece in your Activepieces instance. A public npm package does not automatically enter the shared Activepieces catalog. [中文指南](README.zh-CN.md)
+**Distribution:** Install `@acedatacloud/piece-gpt-image@0.1.2` as a custom Piece in your Activepieces instance. A public npm package does not automatically enter the shared Activepieces catalog. [中文指南](README.zh-CN.md)
 
 ## Install and connect
 
-In Activepieces 0.92.2+, open **Platform Admin → Catalogue → Pieces → Install Piece → NPM Registry**. Enter `@acedatacloud/piece-gpt-image` and version `0.1.1`, then install it. Search for **GPT Image by Ace Data Cloud** when adding a flow action. Confirm the Ace Data Cloud logo and both actions.
+In Activepieces 0.92.2+, open **Platform Admin → Catalogue → Pieces → Install Piece → NPM Registry**. Enter `@acedatacloud/piece-gpt-image` and version `0.1.2`, then install it. Search for **GPT Image by Ace Data Cloud** when adding a flow action. Confirm the Ace Data Cloud logo and both actions.
 
 1. Register or sign in at [Ace Data Cloud Applications](https://platform.acedata.cloud/console/applications?utm_source=opensource&utm_medium=referral&utm_campaign=evergreen&utm_content=gpt_image_activepieces_readme_api_key). If you have no General application, choose **Initialize General Application**.
 2. Open a General application or an application with **GPT Image** access. A General key can access the services your account is entitled to use; a service-specific key is limited to that service.
@@ -15,16 +15,18 @@ In Activepieces 0.92.2+, open **Platform Admin → Catalogue → Pieces → Inst
 
 ## First flow
 
-1. Add **Create GPT Image task**. Enter a prompt, choose `gpt-image-2`, quality `low`, size `1024x1024`, and image count `1`.
+1. Add **Create GPT Image task**. The **Model** and **Quality** dropdowns read the current public image-generation API catalog. Choose an exact model, including any supported compatibility alias. The original defaults remain `gpt-image-2`, quality `low`, size `1024x1024`, and image count `1`; choose values supported by your selected model.
 2. Run creation **once** and save its `task_id`. The action uses `callback_url` to submit asynchronously and has no HTTP retry. If a timeout or 5xx occurs, inspect [request history](https://platform.acedata.cloud/console/usages?utm_source=opensource&utm_medium=referral&utm_campaign=evergreen&utm_content=gpt_image_activepieces_readme_request_history) before submitting again: the task may already exist.
 3. Add **Get GPT Image task**. Map its **Task ID** from the creation output. Query this same ID until `status=succeeded` or `failed`. Pending media is never returned as final output.
 4. Open a URL from `media_urls` only after `success=true`. The lookup can alternatively use a trace ID if the original request supplied a custom trace ID and its task ID was lost. This creation action does not set a custom trace ID.
 
 The [credential-free quickstart flow](https://raw.githubusercontent.com/AceDataCloud/GPTImageActivepieces/main/examples/gpt-image-quickstart.json) imports with both connections empty and the task-ID mapping intact. Add your own connection before running it. Its creation action has automatic retries disabled.
 
-Image count is 1–10 and each successful image can incur a charge. `size` must use `WIDTHxHEIGHT`; the GPT Image 2 public guide gives current custom-size limits. A task lookup does not create or bill another image.
+The validation snapshot contains 24 model IDs and eight quality values; the dropdowns read the current catalog when refreshed. DALL-E 2 uses `standard`; DALL-E 3 uses `standard` or `hd` and image count `1`. Other models have their own limits; consult the current API descriptions. Image count is 1–10 and each successful image can incur a charge. `size` accepts `auto` or `WIDTHxHEIGHT`. A task lookup does not create or bill another image.
 
-An isolated Activepieces CE 0.92.2 instance accepted the build archive and ran **Get GPT Image task** against an existing completed task. The flow returned `succeeded` and one final image URL. The creation action has not been used to submit a new paid image in this validation.
+Catalog lookup is anonymous and sends no connection, prompt or API key. If metadata is unavailable, the dropdown shows an explicit error instead of a partial fallback list; refresh it to retry. Existing saved flows continue using their stored model IDs without a catalog lookup during execution. This Piece implements generation and task lookup; it does not yet expose an image-editing action.
+
+Earlier validation in an isolated Activepieces CE 0.92.2 instance accepted the build archive and ran **Get GPT Image task** against an existing completed task. The flow returned `succeeded` and one final image URL. The creation action has not been used to submit a new paid image in this validation.
 
 ## Troubleshoot
 
@@ -39,7 +41,7 @@ An isolated Activepieces CE 0.92.2 instance accepted the build archive and ran *
 
 The Piece sends chosen inputs and the API key only to `https://api.acedata.cloud`. It returns final media URLs and removes internal routing fields from task results. [Source](https://github.com/AceDataCloud/GPTImageActivepieces) · [Support](https://github.com/AceDataCloud/GPTImageActivepieces/issues) · dev@acedata.cloud.
 
-API requests verify HTTPS certificates and stay on `api.acedata.cloud`. Transport failures and HTTP errors are not retried automatically; inspect request history before resubmitting a creation. HTTPS proxy configuration is not supported by this transport.
+Generation and task requests verify HTTPS certificates and stay on `api.acedata.cloud`. Public catalog reads use the fixed `platform.acedata.cloud` API schema endpoint without authentication, verify certificates, and do not follow redirects. Transport failures and HTTP errors are not retried automatically; inspect request history before resubmitting a creation. The Piece does not provide its own proxy setting.
 
 ## Visual setup references
 
