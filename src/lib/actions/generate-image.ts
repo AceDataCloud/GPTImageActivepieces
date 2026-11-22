@@ -2,7 +2,7 @@ import { createAction, Property } from '@activepieces/pieces-framework';
 
 import { gptImageAuth } from '../auth';
 import { gptImageClient } from '../common/client';
-import { imageCatalogOptions } from '../common/catalog';
+import { imageCatalogOptions, supportsExplicitQuality } from '../common/catalog';
 
 export const generateImage = createAction({
   name: 'generate_image',
@@ -27,11 +27,10 @@ export const generateImage = createAction({
     quality: Property.Dropdown({
       auth: undefined,
       displayName: 'Quality',
-      description: 'Choose a quality supported by the selected model. DALL-E 2 uses standard; DALL-E 3 uses standard or hd.',
-      required: true,
-      defaultValue: 'low',
-      refreshers: [],
-      options: async () => imageCatalogOptions('quality'),
+      description: 'Optional: leave empty to let the API use this model’s default. DALL-E 2 accepts standard; DALL-E 3 accepts standard or hd.',
+      required: false,
+      refreshers: ['model'],
+      options: async ({ model }) => imageCatalogOptions('quality', model),
     }),
     size: Property.ShortText({
       displayName: 'Size',
@@ -54,6 +53,10 @@ export const generateImage = createAction({
     if (typeof model !== 'string' || !model.trim()) {
       throw new Error('Choose a model explicitly.');
     }
+    const explicitQuality = quality?.trim();
+    if (explicitQuality && !supportsExplicitQuality(model, explicitQuality)) {
+      throw new Error('This quality is not supported by the selected model. Choose a listed quality or leave it empty for the model default.');
+    }
     if (!/^(auto|\d+x\d+)$/.test(size)) {
       throw new Error('Size must use auto or WIDTHxHEIGHT, such as 1024x1024.');
     }
@@ -66,7 +69,7 @@ export const generateImage = createAction({
       body: {
         model,
         prompt,
-        quality,
+        ...(explicitQuality ? { quality: explicitQuality } : {}),
         size,
         n: count,
         callback_url: 'https://api.acedata.cloud/health',

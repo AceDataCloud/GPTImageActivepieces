@@ -47,7 +47,15 @@ function readCatalog(): Promise<CatalogResponse> {
   });
 }
 
-export async function imageCatalogOptions(field: 'model' | 'quality'): Promise<DropdownState<string>> {
+// The public image API documents these legacy-model quality constraints.
+// Unknown models keep the service enum rather than inheriting another model's rules.
+export function supportsExplicitQuality(model: unknown, quality: string): boolean {
+  if (model === 'dall-e-2') return quality === 'standard';
+  if (model === 'dall-e-3') return quality === 'standard' || quality === 'hd';
+  return true;
+}
+
+export async function imageCatalogOptions(field: 'model' | 'quality', model?: unknown): Promise<DropdownState<string>> {
   try {
     const catalog = await readCatalog();
     const values = catalog.definition?.paths?.[GENERATION_PATH]?.post?.requestBody
@@ -56,7 +64,12 @@ export async function imageCatalogOptions(field: 'model' | 'quality'): Promise<D
         !values.every((value): value is string => typeof value === 'string' && value.trim().length > 0)) {
       throw new Error('Missing catalog enum.');
     }
-    return { options: [...new Set(values)].map((value) => ({ label: value, value })) };
+    return {
+      ...(field === 'quality' ? { placeholder: 'Leave empty to use the selected model’s default.' } : {}),
+      options: [...new Set(values)]
+        .filter((value) => field !== 'quality' || supportsExplicitQuality(model, value))
+        .map((value) => ({ label: value, value })),
+    };
   } catch {
     return {
       disabled: true,

@@ -107,3 +107,48 @@ test('all published model IDs reach one submission unchanged and saved inputs do
     assert.equal(catalogRequests, 0);
   } finally { gptImageClient.post = original; https.get = originalGet; }
 });
+
+test('optional quality leaves all models on API defaults and DALL-E exposes only its documented quality choices', async () => {
+  assert.equal(generateImage.props.quality.required, false);
+  assert.equal(generateImage.props.quality.defaultValue, undefined);
+  assert.deepEqual(generateImage.props.quality.refreshers, ['model']);
+  const mock = mockCatalog([{ body: fixture }, { body: fixture }]);
+  try {
+    const dalle2 = await generateImage.props.quality.options({ model: 'dall-e-2' }, {});
+    const dalle3 = await generateImage.props.quality.options({ model: 'dall-e-3' }, {});
+    assert.deepEqual(dalle2.options.map(option => option.value), ['standard']);
+    assert.deepEqual(dalle3.options.map(option => option.value), ['hd', 'standard']);
+  } finally { mock.restore(); }
+
+  const original = gptImageClient.post;
+  const calls = [];
+  gptImageClient.post = async request => { calls.push(request); return { task_id: 'same-task' }; };
+  const context = model => ({
+    auth: { secret_text: 'OFFLINE_ONLY' },
+    propsValue: { prompt: 'Offline fixture', model,
+      size: generateImage.props.size.defaultValue,
+      count: generateImage.props.count.defaultValue },
+  });
+  try {
+    for (const model of properties.model.enum) await generateImage.run(context(model));
+    assert.equal(calls.length, 24);
+    assert(calls.every(call => !Object.hasOwn(call.body, 'quality')));
+    assert(calls.every(call => call.body.size === '1024x1024' && call.body.n === 1));
+    for (const quality of [null, '', '  ']) {
+      const cleared = context('dall-e-3');
+      await generateImage.run({ ...cleared, propsValue: { ...cleared.propsValue, quality } });
+      assert.equal(Object.hasOwn(calls.at(-1).body, 'quality'), false);
+    }
+    const acceptedCalls = calls.length;
+    for (const model of ['dall-e-2', 'dall-e-3']) {
+      for (const quality of ['low', 'auto']) {
+        const input = context(model);
+        await assert.rejects(generateImage.run({ ...input, propsValue: { ...input.propsValue, quality } }), /not supported/);
+      }
+    }
+    assert.equal(calls.length, acceptedCalls, 'invalid quality must be rejected before any paid submission');
+    const saved = context('gpt-image-2');
+    await generateImage.run({ ...saved, propsValue: { ...saved.propsValue, quality: 'low' } });
+    assert.equal(calls.at(-1).body.quality, 'low', 'explicit saved GPT quality is preserved');
+  } finally { gptImageClient.post = original; }
+});
