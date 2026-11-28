@@ -8,10 +8,10 @@
 
 Activepieces 0.92.2+ 中进入 **Platform Admin → Catalogue → Pieces → Install Piece → NPM Registry**，填写 `@acedatacloud/piece-gpt-image` 和版本 `0.1.6`。在流程中搜索 **GPT Image**，核对 Ace Data Cloud Logo 和两个动作。
 
-1. 在 [Ace Data Cloud Applications](https://platform.acedata.cloud/console/applications?utm_source=opensource&utm_medium=referral&utm_campaign=evergreen) 注册或登录。若没有通用应用，点击 **Initialize General Application**。
-2. 打开通用应用或具备 **GPT Image** 权限的应用。通用 Key 可访问账号已获授权的服务；专用 Key 仅限对应服务。
-3. 使用应用卡片的复制按钮，或通过 **Manage Keys → Create** 创建名为 `Activepieces GPT Image` 的独立 Key，按需设置有效期与用量限制。若启用 **Allowed APIs**，应同时包含 `/openai/images/generations` 与 `/openai/tasks`，创建后复制 Key。
-4. 创建 Activepieces 连接，只填写 API Key 本身，不加 `Bearer `。`platform-...` 管理 Token 不是生成 API Key。Key 留在连接中，不写入流程导出。生成前查看当前[价格](https://platform.acedata.cloud/models?utm_source=opensource&utm_medium=referral&utm_campaign=evergreen)与余额。
+1. 在 [Ace Data Cloud Applications](https://platform.acedata.cloud/console/applications?utm_source=opensource&utm_medium=referral&utm_campaign=evergreen) 注册或登录。页面会自动准备好**通用应用**卡片。
+2. 可使用**通用应用**或具备 **GPT Image** 权限的应用。通用 Key 可访问账号已获授权的服务；专用 Key 仅限对应服务。
+3. 点击应用卡片上 **API KEY** 旁的复制按钮，或通过 **Manage Keys → Create** 创建名为 `Activepieces GPT Image` 的独立 Key，按需设置有效期与用量限制。若启用 **Allowed APIs**，应同时包含 `/openai/images/generations` 与 `/openai/tasks`，创建后复制 Key。
+4. 创建 Activepieces 连接，只填写 API Key 本身，不加 `Bearer `。`platform-...` 管理 Token 不是生成 API Key。Key 留在连接中，不写入流程导出。生成前查看当前[价格](https://platform.acedata.cloud/models?utm_source=opensource&utm_medium=referral&utm_campaign=evergreen)。应用余额不足时，点击该应用卡片上的**充值**。
 
 ## 首次流程
 
